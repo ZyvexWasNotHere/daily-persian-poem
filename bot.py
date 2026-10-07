@@ -1,8 +1,9 @@
-import requests
+import os
 import random
+import requests
 
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-CHAT_ID = "YOUR_CHAT_ID"
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+CHAT_ID = os.environ["CHAT_ID"]
 
 poems = [
     ("حافظ", "دوش دیدم که ملائک در میخانه زدند\nگل آدم بسرشتند و به پیمانه زدند"),
@@ -22,10 +23,13 @@ message = f"""📜 شعر روز
 
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-requests.post(
+response = requests.post(
     url,
     data={
         "chat_id": CHAT_ID,
         "text": message
     }
 )
+
+response.raise_for_status()
+print("شعر با موفقیت ارسال شد.")
